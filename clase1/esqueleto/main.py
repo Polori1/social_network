@@ -75,13 +75,15 @@ class Post(SQLModel, table=True):  # table=True → esta clase ES una tabla
 @app.post("/posts", response_model=Post, status_code=201)
 def create_post(post: Post, db: SessionDep):
     with Session(engine) as session:
-        primer_posteo = Post(
-            title="prueba",
-            content="prueba2"
+        nuevo_post = Post(
+        title=post.title,
+        content=post.content
         )
-        session.add(primer_posteo)
+        
+        session.add(nuevo_post)
         session.commit()
-        session.refresh(primer_posteo)
+        session.refresh(nuevo_post)
+        return nuevo_post
 
 
 # TODO 4: leer.
